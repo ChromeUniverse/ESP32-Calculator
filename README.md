@@ -9,7 +9,7 @@ Created solely for educational purposes.
 _Fun fact: roughly 3x faster than the Texas Instruments TI-84 Plus!_
 
 ## Hardware
-* Generic ESP32 dev module (any dev module should work)
+* Generic ESP32 development board (any dev board should work)
 * 1.77" 128x160 TFT LCD - ST7735S controller
 
 ## Libraries
