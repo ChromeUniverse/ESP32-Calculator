@@ -28,7 +28,7 @@ Coming soon!
 Functions shown below:
 * Sine wave: y = 6 sin(x)
 * Parabola: y = (0.6 x)<sup>3</sup> - 5 x
-* Cubic funcion: y = (0.6 x)<sup>3</sup> - 5 x
+* Cubic funcion: y = (0.8 x)<sup>3</sup> - 5 x
 
 Viewing window:
 ```
