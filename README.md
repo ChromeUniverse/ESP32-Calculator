@@ -6,9 +6,11 @@ Software built with the Arduino IDE and Espressif's [ESP32 Arduino Core](https:/
 
 Created solely for educational purposes. 
 
+_Fun fact: roughly 3x faster than the Texas Instruments TI-84 Plus!_
+
 ### Hardware used:
 * Generic ESP32 dev module (any dev module should work)
-* 1.77" 128x160 TFT LCD - ST7735S controller (SPI) 
+* 1.77" 128x160 TFT LCD - ST7735S controller
 
 ### Libraries:
 * [Adafruit ST77xx library](https://github.com/adafruit/Adafruit-ST7735-Library)
