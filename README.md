@@ -22,6 +22,8 @@ Coming soon!
 ## Feature list
 * Renders graphs of functions on the display
 
+## To-Do
+Coming soon!
 
 ## Photos
 
