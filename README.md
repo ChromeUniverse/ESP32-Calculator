@@ -23,7 +23,7 @@ Coming soon!
 * Renders graphs of functions on the display
 
 ## To-Do
-Coming soon!
+* Add a to-do lmao
 
 ## Photos
 
