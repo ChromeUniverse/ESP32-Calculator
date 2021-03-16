@@ -197,67 +197,6 @@ void parabola(){
 
 }
 
-void quartic(){
-  // width: 128px
-  // height: 160px
-
-  double xmin = -10;
-  double xmax = 10;
-
-  double xspan = xmax - xmin;
-
-  double xscl = 1;
-
-  double ymin = -10;
-  double ymax = 10;
-
-  double yspan = ymax - ymin;
-
-  double yscl = 1;
-
-  double xres = xspan/tft.width();
-  double yres = yspan/tft.height();
-
-  double xcurrent = xmin;
-
-  int i = 1;
-
-  int x_previous = 0;
-  int y_previous = 0;
-
-  bool first = false;
-
-  while (xcurrent < xmax){
-    double ycurrent = pow(3*xcurrent,4) - 5*pow(xcurrent,3);
-
-    int x_pixels = round((xcurrent-0)/xres);
-    int y_pixels = round((ycurrent-0)/yres);
-
-    Serial.println("Entry " + String(i) + ": This is the current X: " + String(xcurrent) + "; This is the current Y: " + String(ycurrent) + " NumPixels: " + String(round((ycurrent-0)/yres)) );
-
-    int x_graph = tft.width()/2 + x_pixels;
-    int y_graph = tft.height()/2 - y_pixels;
-
-    if (y_graph < 128 or y_graph > 0){
-      tft.drawPixel(x_graph, y_graph, ST77XX_WHITE);
-    }
-
-    if (first == false) {
-      first = true;
-    } else if (first == true and (y_graph < 128 or y_graph > 0)) {
-      tft.drawLine(x_previous, y_previous, x_graph, y_graph, ST77XX_BLUE);
-    }
-
-    x_previous = x_graph;
-    y_previous = y_graph;
-
-    xcurrent += xres;
-
-    i++;
-  }
-
-}
-
 
 
 void setup() {
@@ -270,11 +209,14 @@ void setup() {
   tft.setRotation(1);
   tft.fillScreen(ST77XX_BLACK);
   double start = millis();
+
+  // draws coordinate axes
   draw_axis();
+  // draws function graphs 
   sine_wave();
   parabola();
   cubic();
-  //quartic();
+
   double finish = millis();
   double runtime = (finish - start)/1000; //seconds
   Serial.println(runtime);
