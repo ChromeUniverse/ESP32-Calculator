@@ -27,12 +27,12 @@ class Token {
     };
 
     // returns type of token
-    int getType () {
+    int getType() {
       return tokenType;
     }
 
     // returns token's text
-    String getText () {
+    String getText() {
       return tokenText;
     }
 
@@ -60,6 +60,152 @@ class Token {
     // useless token class destructor
     //virtual ~Token ();
 };
+
+
+
+
+
+
+
+
+// print elements in a queue
+void print_queue(ArduinoQueue<Token> q_original){
+  // creating a copy of the queue
+  ArduinoQueue<Token> q = q_original;
+
+  int i = 0;
+  while ( !q.isEmpty() ) {
+
+    // get element (token) text
+    Token element = q.getHead();
+    String t_text = element.getText();
+    int t_type = element.getType();
+
+    // print out type properly
+    String type_text = "";
+    if (t_type == 0) type_text = "NUMBER";
+    if (t_type == 1) type_text = "OPERATOR";
+    if (t_type == 2) type_text = "L_PAREN";
+    if (t_type == 3) type_text = "R_PAREN";
+    // print it out
+    //cout << "Element #" << i+1 <<": " << t_text << " is of type " << type_text << endl;
+    Serial.println("Element #" + String(i+1) + ": " + t_text + " is of type " + type_text);
+    // pop it!
+    q.dequeue();
+
+    i++;
+  }
+  // line break
+  //cout << endl;
+  Serial.println();
+}
+
+
+
+
+
+
+
+
+// findType function
+// -> takes in token text and returns token type
+
+int findType (String s) {
+
+  // checking for empty input
+  if (s.length() == 0) return false;
+
+  for (int i = 0; i < s.length(); i++) {
+    char c = s[i];
+
+    // check if letter is a digit
+    if (c >= '0' && c <= '9') return 0; // found a number
+    else {
+      // check for L_paren and R_paren
+      if (c == '(') return 2;
+      if (c == ')') return 3;
+
+      // check for a preceding minus sign
+      if ((c == '-' && i == 0) && s.length() > 1) continue;
+      // checks for a decimal point
+      if (c == '.') continue;
+
+      // checking for arithmetic operators
+      if (c == '^') return 1;
+      if (c == '*') return 1;
+      if (c == '/') return 1;
+      if (c == '+') return 1;
+      if (c == '-') return 1;
+
+    }
+    // end of not-number logic case
+    return false;
+
+  } // end of for loop
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// input function
+// -> parses math input, converts to input queue
+ArduinoQueue<Token> input(String expression) {
+
+  ArduinoQueue<Token> input_queue(expression.length());
+
+  /*
+  input_queue.push(3)   -> enqueues element
+  input_queue.pop()     -> dequeues element
+  input_queue.front()   -> gets first element
+  */
+
+  // token parameters
+  String token_text = "";
+  int token_type;
+
+  // parsing the input expression
+
+  for (int i = 0; i < expression.length(); i++) {
+    // get current letter
+    char letter = expression[i];
+
+    // didn't find a whitespace char
+    if (letter != ' ') {
+      token_text += letter;
+    }
+
+    // found a whitespace or reached end of expression
+    if (letter == ' ' || i == expression.length()-1){
+      // find out what the token type is
+      token_type = findType(token_text);
+      // create token instance
+      Token newToken(token_text, token_type);
+      // push it on the queue
+      input_queue.enqueue(newToken);
+      // clear current token text buffer
+      token_text = "";
+    }
+  }
+
+  return input_queue;
+
+}
+
+
+
+
+
+
+
+
 
 
 // draws coordinate axes on the display
@@ -148,7 +294,6 @@ void setup() {
   // draws function graphs
   //sine_wave();
 
-
   /*
   // stopwatch
   double finish = millis();
@@ -209,7 +354,10 @@ void loop() {
       tft.setTextWrap(true);
       tft.print("Here is math: " + expression);
 
-
+      // parse input
+      //input(expression);
+      // confirm that we got good input
+      //print_queue(input_queue);
 
 
     }
