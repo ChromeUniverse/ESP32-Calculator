@@ -1,0 +1,6 @@
+.pio
+.clang_complete
+.gcc-flags.json
+.include/README*
+.lib/README*
+.test/README*
