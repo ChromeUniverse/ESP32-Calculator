@@ -6,6 +6,7 @@
 // initializing display object
 Adafruit_ST7735 tft = Adafruit_ST7735(5, 14, 23, 18, 13);
 
+/*
 // defining Token class
 class Token {
 
@@ -39,7 +40,7 @@ class Token {
     // returns operator precedence ranking
     // assumes it's *only* going to be called for Operator tokens
 
-    /* Operator precedence, highest to lowest:
+       Operator precedence, highest to lowest:
 
         ^      > exponent
         * , /  > multiplication, division
@@ -47,7 +48,7 @@ class Token {
         =      > equals sign
         (      > L_PAREN --- overrides precedence
 
-    */
+
 
     int getPrecedence() {
       if (tokenText == "^") return 4;
@@ -61,10 +62,47 @@ class Token {
     //virtual ~Token ();
 };
 
+*/
 
+// Token data structure
+typedef struct {
+  int tokenType;        // 0 -> number token
+                        // 1 -> operator token
+                        // 2 -> L_paren
+                        // 3 -> R_paren
+  String tokenText;     // token's text
+} Token;
 
+// returns Token type
+int getType(Token token) {
+  return token.tokenType;
+}
 
+// returns token's text
+String getText(Token token) {
+  return token.tokenText;
+}
 
+// returns operator precedence ranking
+// assumes it's *only* going to be called for Operator tokens
+
+/* Operator precedence, highest to lowest:
+
+    ^      > exponent
+    * , /  > multiplication, division
+    + , -  > addition, subtraction
+    =      > equals sign
+    (      > L_PAREN --- overrides precedence
+
+*/
+
+int getPrecedence(Token token) {
+  if (token.tokenText == "^") return 4;
+  if (token.tokenText == "*" || token.tokenText == "/") return 3;
+  if (token.tokenText == "+" || token.tokenText == "-") return 2;
+  if (token.tokenText == "=") return 1;
+  if (token.tokenText == "(") return 0;
+}
 
 
 
@@ -78,8 +116,8 @@ void print_queue(ArduinoQueue<Token> q_original){
 
     // get element (token) text
     Token element = q.getHead();
-    String t_text = element.getText();
-    int t_type = element.getType();
+    String t_text = getText(element);
+    int t_type = getType(element);
 
     // print out type properly
     String type_text = "";
@@ -155,17 +193,17 @@ int findType (String s) {
 
 
 
+
 // input function
 // -> parses math input, converts to input queue
 ArduinoQueue<Token> input(String expression) {
 
   ArduinoQueue<Token> input_queue(expression.length());
 
-  /*
-  input_queue.push(3)   -> enqueues element
-  input_queue.pop()     -> dequeues element
-  input_queue.front()   -> gets first element
-  */
+  // input_queue.enqueue(3)  -> enqueues element
+  // input_queue.dequeue()   -> dequeues element
+  // input_queue.getHead()   -> gets first element
+
 
   // token parameters
   String token_text = "";
@@ -186,10 +224,15 @@ ArduinoQueue<Token> input(String expression) {
     if (letter == ' ' || i == expression.length()-1){
       // find out what the token type is
       token_type = findType(token_text);
+
       // create token instance
-      Token newToken(token_text, token_type);
+      Token newToken;
+      newToken.tokenText = token_text;
+      newToken.tokenType = token_type;
+
       // push it on the queue
       input_queue.enqueue(newToken);
+
       // clear current token text buffer
       token_text = "";
     }
@@ -220,7 +263,7 @@ void draw_axis(){
 
 }
 
-
+/*
 // draws a sine wave on the display
 void sine_wave(){
   double xmin = -10;
@@ -279,7 +322,7 @@ void sine_wave(){
   }
 
 }
-
+*/
 // program setup
 void setup() {
 
@@ -355,9 +398,9 @@ void loop() {
       tft.print("Here is math: " + expression);
 
       // parse input
-      //input(expression);
+      ArduinoQueue<Token> input_queue = input(expression);
       // confirm that we got good input
-      //print_queue(input_queue);
+      print_queue(input_queue);
 
 
     }
