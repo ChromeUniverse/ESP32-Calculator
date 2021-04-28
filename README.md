@@ -4,6 +4,8 @@ A simple graphing calculator powered by the ESP32 SoC from Espressif.
 
 Software built with the Arduino IDE and Espressif's [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32).
 
+The most recent iterations of the ccalculator's software are based on a [Math Parser/Evaluator](https://github.com/ChromeUniverse/Math-Parser) I've written in C++.
+
 Created solely for educational purposes. 
 
 _Fun fact: roughly 3x faster than the Texas Instruments TI-84 Plus!_
